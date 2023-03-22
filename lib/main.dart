@@ -14,21 +14,24 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       debugShowCheckedModeBanner: false,
-      home: MyHomePage(),
+      home: NavigationDrawerDemo(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
+class NavigationDrawerDemo extends StatefulWidget {
+  const NavigationDrawerDemo({Key? key}) : super(key: key);
+
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  State<NavigationDrawerDemo> createState() => _NavigationDrawerDemoState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _NavigationDrawerDemoState extends State<NavigationDrawerDemo> {
+  final GlobalKey<ScaffoldState> _key = GlobalKey(); // Create a key
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _key,
       appBar: AppBar(
         title: Text('Act.3 Drawer Sariñana'),
         backgroundColor: const Color(0xffbc4a70),
@@ -84,14 +87,21 @@ class _MyHomePageState extends State<MyHomePage> {
                 Navigator.pop(context);
               },
             ),
-            ListTile(
-              leading: Icon(
-                Icons.face,
+            AboutListTile(
+              // <-- SEE HERE
+              icon: Icon(
+                Icons.info,
               ),
-              title: const Text('Pagina 4'),
-              onTap: () {
-                Navigator.pop(context);
-              },
+              child: Text('Acerca de la app'),
+              applicationIcon: Icon(
+                Icons.local_play,
+              ),
+              applicationName: 'Mi aplicacion',
+              applicationVersion: '4.0.25',
+              applicationLegalese: '© 2019 Company',
+              aboutBoxChildren: [
+                ///Content goes here...
+              ],
             ),
           ],
         ),
@@ -101,6 +111,15 @@ class _MyHomePageState extends State<MyHomePage> {
           children: [
             SizedBox(
               height: 50,
+            ),
+            ElevatedButton(
+              onPressed: () {
+                _key.currentState!.openDrawer(); //<-- SEE HERE
+              },
+              child: const Text(
+                'Boton elevado 1',
+                style: TextStyle(fontSize: 25),
+              ),
             ),
           ],
         ),
